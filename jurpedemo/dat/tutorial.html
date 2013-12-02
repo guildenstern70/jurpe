@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+        <title>J.U.R.P.E. Tutorial</title>
+        <style type="text/css">
+<!--
+.style1 {color: #006666}
+.style2 {
+	color: #996600;
+	font-style: italic;
+}
+.style3 {color: #FFCC00}
+.style4 {color: #3300FF}
+.style5 {color: #6666FF}
+.style6 {color: #FF33CC}
+.style7 {
+	color: #CC3333;
+	font-style: italic;
+}
+.style8 {
+	color: #990033;
+	font-style: italic;
+}
+.style9 {
+	color: #336633;
+	font-style: italic;
+}
+.style10 {color: #003399}
+.style11 {
+	font-size: large;
+	color: #0000CC;
+}
+.style12 {
+	color: #000099;
+	font-weight: bold;
+}
+.style13 {
+	color: #0000FF;
+	font-weight: bold;
+}
+.style14 {
+	color: #0000FF;
+	font-style: italic;
+}
+-->
+        </style>
+</head>
+<!-- You can find JURPE at: http://jurpe.sourceforge.net/ -->
+<body>
+<h2 class="style10">J.U.R.P.E. Demo Tutorial</h2>
+Welcome to the JurpeDemo tutorial.<br>
+<br>
+
+This application was built to demonstrate the features of <a href="http://jurpe.sourceforge.net">"J.U.R.P.E. RPG engine" Project</a><br>
+<br>
+This is a preliminary alpha version. You may submit bugs at <a href="https://sourceforge.net/tracker/?atid=561623&group_id=80981&func=browse">https://sourceforge.net/tracker/?atid=561623&group_id=80981</a>.<br><br>
+
+<hr>
+
+<h3 class="style11">Getting started</h3>
+<p><br>
+
+  <b>1. Creating a character</b></p>
+<p><img src="images/CreateACharacter.PNG" width="595" height="538"></p>
+<p><br>
+  You  start by creating your own character. In JurpeDemo, every character has "character points" (CP) which describe his/her overall power.
+CP are computed against the statistics and skills of your character. You cannot have a starting character with more than 100 CP.<br>
+
+</p>
+<ul>
+<li>Select "<span class="style1">New</span>" under File menu command, or "<span class="style1">Generate New Character</span>" under tools.
+<li>A wizard will guide you through the creation steps of your character.
+<li>You must select some inborn skills that affects your character. You can see them as personal traits, advantages or disasvantages.
+Each of them has a value in terms of "value points".
+</ul>
+
+<p>You have now created your Playing Character (PC). </p>
+<hr>
+<p><br>
+<b>2. Walking around</b></p>
+<p><img src="images/WalkingAroung.PNG" width="594" height="539"></p>
+<p><br>
+  After the creation of the character (or when you restore a saved one),
+  the village map appears. This is a map made of hexagonal tiles. You may go towards six different directions:<br>
+</p>
+<ul>
+<li> North (<i>press 'I'</i>)
+<li> South (<i>press 'K'</i>)
+<li> NorthWest (<i>press 'U'</i>)
+<li> NorthEast (<i>press 'O'</i>)
+<li> SouthWest (<i>press 'J'</i>)
+<li> SouthEast (<i>press 'L'</i>)
+</ul>
+
+<p class="style7">TIP: You may check the keyboard commands by selecting menu item Help/Commands </p>
+<p>The village is a quiet place with trees, small houses and some special locations such as armories and inns. The village elder told you
+  that somewhere in the village lies the entrance of a dungeon filled with monsters (<span class="style2">how original!</span>) You are the only champion
+  that can go in the dungeon defeating all the monsters, thus freeing the village from the menace. All right. Being honest the very
+  goal of the game is to destroy an infinite number of monsters so to acquire new experience and let your character grow in fame,
+  power and glory. The more monsters you slash, the more "value points" you earn. There is also a score indicator (middle right).
+But before you may slash monsters, you have to equip yourself.</p>
+<p>Every move you make time in the game passes. If you want to know what time is it in the game, just press 'T'. If you are injured, that is your current HP is lower than your constitution (HT), you have the chance to recover 1 HP point. This is made through a roll against your overall HT. In other words, characters with higher HT recover health faster. </p>
+<hr>
+<p><br>
+
+  <b>3. Shopping</b></p>
+<p><img src="images/Shopping.PNG" width="591" height="446"></p>
+<p><br>
+  The shop is a <span class="style3">yellow</span> hexagon in the village. You should be able to reach it pressing the directions button. When you are over the
+  yellow hexagon just press 'SPACE' to enter and answer 'Yes'.
+  By pressing 'SPACE' you will interact with the objects in the hexagonal cell. For instance, if you are in a cell with a small house, pressing 'SPACE' you are telling your character to open the door of the small house. </p>
+<ul>
+<li>The store contains items divided into: <em>weapons</em>, <em>armors</em>, <em>shields</em>, and <em>other</em>.
+<li>Browse the various items y clicking on the small '+' button.
+<li>When you see a particularly interesting item, right click on it and select "Examine"
+<li>If you like the item (and you have the necessary money) you can buy it by right clicking on it.
+</ul>
+
+<p>In order to begin a combat, you must <em>wear</em> at least a weapon. But be sure to get a better defense buying
+  a shield and an armor. The amount of money you have is indicated in the yellow field.
+  Note that the price you obtain is related to your <i>merchant skill</i> (see 5). When you walk away the shop, the "Shop" tab will no more be visible.
+  If you are not experienced in the merchant skill, you will have a default value based on your IQ attribute. <br>
+</p>
+<hr>
+<p><b>4. Equip character</b></p>
+<p><img src="images/Equip.PNG" width="592" height="475"></p>
+<p><br>
+
+  The inventory tab can be selected at any moment.</p>
+<ul>
+<li>Select "<span class="style4">Inventory</span>" tab
+<li>There you will see items you purchased
+<li>Select the item you want to wear in the list
+<li>Click the right mouse button. Select "<span class="style5">wear</span>".
+<li>The item will be automatically located in the right text fields. (Weapon if it's a weapon, and such).
+</ul>
+
+<p>Encumbrance is the total weight of your inventory. Encumbrance directly affects your combat performance.
+  Be sure to wear at least a weapon, so that you may begin a combat.
+  It is now a perfect moment to save your character: do that be clicking the button "Save", or do so
+by choosing the corresponding File Menu command.</p>
+<hr>
+<p><br>
+
+  <b>5. Learn new skills</b></p>
+<p><img src="images/Skills.PNG" width="597" height="458"></p>
+<p><br>
+  There is a special house in which your trainer lives. It is a <span class="style6">pink</span> hexagon somewhere in the village. When you are over your
+  trainer's house just press 'SPACE' to enter and answer 'Yes'. (You are able to select the "Skills" tab at any moment, <em>but only at the trainer house you will be able to improve your skills</em>). </p>
+<ul>
+<li>You will see a list of the skills of your character. Since yours is a new character this list is empty
+<li>To learn a new skill you must spend some "character points" (to the right in yellow)
+<li>Available skills for your character to learn are in the bottom combo box. Select either Physical or
+Mental skills.
+<li>Click the "?" button to know more about the selected skill
+<li>Click the "+" button to learn the skill. The skill will appear in the list.
+<li>Now that you have learnt it, you may improve the level of your skill. Select the skill from the list and
+click the Improve button.
+</ul>
+
+<p>Every skill has a default level, which is described when you push the "?" button. You may gain upper levels by
+  spending your remaining CP. Nonetheless, when you learn a new skill, your level it's not the default one,
+  because the program automatically improves it for you until this improvement it's free (it does not cost
+  any CP). Try to learn vital skills for your character. For instance: if you have a small sword, don't forget
+  to learn the "Sword skill" that determines your skill with the sword. If not, dice will be rolled against the
+default sword level for every character (which is, for example, the character DX minus 5).</p>
+<hr>
+<p><br>
+
+  <b>6. The dungeon </b></p>
+<p><img src="images/Dungeon.PNG" width="409" height="274"></p>
+<p><br>
+  You are now ready to look for the dungeon entrance. (Be sure to wear at least a weapon). The pit is a <strong>black</strong> hexagon
+  somewhere in the village. When you enter you will see a random generated dungeon.
+</p>
+<p class="style7">TIP: Here and there in the dungeon you can find something left by monsters or other adventurers. It is a dark yellow icon with three small dots. If you want you may pick that up, by pressing 'X'.</p>
+<p>There will be some monsters there, and they appear as red dots. Monsters are randomly generated, but every monster
+  displayed has the same amount of character points, in other words: the same level, the same character points for monsters. Monsters move around, based on their movement rate </p>
+<p>Go toward the monster you want to fight. If you cannot reach a monster, maybe you will have to buy a shovel to <span class="style12">dig your way</span> through the dungeon. Press 'D' plus a direction to dig a way into the dungeon.</p>
+<hr>
+<p><b>7. Combat</b></p>
+<p><img src="images/Combat.PNG" width="539" height="438"></p>
+<p>A dialog appear, telling you the name and the primary statistics of the monster. Click "Yes" to enter combat.
+    (<span class="style8">It could be somewhat dangerous, and you could perish... but this is just a game, after all!</span>)
+</p>
+<p>A new combat window is shown, indicating your health, and your adversary health. If you leave the cursor upon the panel
+    containing the combatant name, you will see the attributes of that combatants (ST,IQ,DX,HT and HPs).
+</p>
+<p>Select, if any, the way you want to use your weapon (ie: cutting, impaling). Some weapons may be used in just one way (ie: a knife can only cut).
+</p>
+<p>Select the way you want to defend: dodging, parrying (with weapon), blocking (with shield). (If you go in your character
+    tab, you will discover which defense is best for you).
+</p>
+<p>If your weapon must be readied because it's unbalanced (like an axe, for example), select the command "Ready Weapon".
+    An unbalanced weapon needs to be readied every combat turn. The program can do that for you if you select "Auto ready weapon".
+    Notice that readying weapon is counted as one full combat turn, so you may receive damage in the turn you ready a weapon. </p>
+<p>Select a command in the toolbar. (ie: "Attack" is the single sword, "All out attack" is the two crossed swords) </p>
+<p>Your dice rolls and everything else will be displayed in the log below.
+</p>
+<p>If you are hit, or your adversary is, the corresponding panel will blink red.
+</p>
+<p>If things are going bad, you may want to "escape", using the "move" command (the arrow icon). Notice that you can escape only if your SPEED is higher than that of the monster. </p>
+<p>If you succeed in defeating all the monsters in the dungeon, the next time you enter it a new wave of random monsters
+    will be generated, all with a superior amount of character points.
+</p>
+<p class="style7">TIP: If the box with the monster HP points turns green, it means the monster escaped. After the escape, a monster regain full health. </p>
+<p>If you succeed in defeating your opponent, you will be awarded with some experience points and score.
+See the log for details. When you die, you will have to generate a new character.</p>
+<hr>
+<p><b>8. Ranged Combat</b></p>
+<p><img src="images/Ranged.PNG" width="150" height="165"></p>
+<p>If you buy a ranged weapon, for instance a bow, you may initiate ranged combat. To do so, you should be proficient in &quot;Bow&quot; skill, or another ranged combat skill.</p>
+<p>When you are in a dungeon, you may aim at a monster by pressing 'A'. By doing so you enter in the 'aim mode': a new 'gunsight' appears, it is a cyan hexagon that you can move in the map using the same keys to move your avatar (U,I,O,J,K,L). To exit the 'aim mode', just press 'A' again.</p>
+<p>When you aim a monster, press 'Enter' to shoot at it. You must wear a ranged weapon to do so.</p>
+<p>Following this action, a normal combat turn takes place. You make an attack roll, your foe makes his defense roll, then a roll for damage is done. There is a malus on your attack roll depending on the distance between you and your foe. The target of a missile weapon may dodge, but may not parry: that is, it's active defense will always be &quot;dodge&quot;.</p>
+<p>&nbsp;</p>
+<hr>
+<p><b>9. The aim of the game</b></p>
+<p>There is really no aim in this game... You can try to beat your own high score, and elaborate new strategies and new skills to beat more wave of monsters. Notice that waves
+  ranges from "<span class="style7">Neutral stupid beasts</span>" (CP 40) to "<span class="style8">Semi sentient beings with full armor</span>" (CP 80) and to "<span class="style9">Intelligent creatures with high technology weapons and armors</span>" (CP 150). <br>
+  <br>
+  <br>
+  This is only a very little part of the JurpeDemo engine, of course. Magic, ranged weapons, monster artificial intelligence, and
+  a lot more features are being developed.
+If you want to join the project, write to <a href="mailto:axsaxs@users.sourceforge.net">JURPE Project</a></p>
+<hr>
+<p>&nbsp;</p>
+<p><span class="style13">Do you like JURPE? Would you like new versions and improvemente? Then donate!<br>
+  </span><span class="style14"><br>
+  If you just like the project and want it to improve and to release more frequently, you can support it by donating
+  at <a href="https://sourceforge.net/donate/index.php?group_id=80981">https://sourceforge.net/donate/index.php?group_id=80981</a>.<br>
+  <br>
+Thank you for your interest and time. If you like JURPE, talk about it to a friend!</span></p>
+<p><br>
+</p>
+</body>
+</html>

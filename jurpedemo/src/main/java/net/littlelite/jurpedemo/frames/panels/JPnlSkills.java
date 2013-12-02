@@ -1,0 +1,508 @@
+/**
+ J.U.R.P.E. @version@ Swing Demo
+ Copyright (C) 2002-12 LittleLite Software
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+ */
+package net.littlelite.jurpedemo.frames.panels;
+
+import java.awt.Component;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import net.littlelite.jurpe.characters.PCharacter;
+import net.littlelite.jurpe.characters.Skill;
+import net.littlelite.jurpe.containers.Skills;
+import net.littlelite.jurpedemo.frames.JurpeMain;
+import net.littlelite.jurpedemo.resources.GameStrings;
+
+/**
+ * Skill leveling panel
+ * 
+ */
+public class JPnlSkills extends JPanelTemplate
+{
+
+	// UID
+	private static final long serialVersionUID = 2L;
+
+	// Buisiness Logic
+	private static final String[] skillTableColumns =
+	{ GameStrings.NAME, GameStrings.LEVEL, GameStrings.TIPO, GameStrings.BASEDON };
+
+	/** Creates new form JPnlSkills */
+	public JPnlSkills(JurpeMain gui)
+	{
+		super(gui);
+		initComponents();
+		this.customInit();
+		this.setPanelDimension();
+	}
+
+	public String getSelectedSkill()
+	{
+		return this.jTxtSelectedSkill.getText();
+	}
+
+	/**
+	 * If you can improve or not your skills
+	 * 
+	 * @param enable
+	 *            boolean
+	 */
+	public void enableImproving(boolean enable)
+	{
+		this.jBtnImproveSkill.setEnabled(enable);
+		this.enablePanel(this.pnlMentalSkills, enable);
+		this.enablePanel(this.pnlPhysSkills, enable);
+	}
+
+	/**
+	 * Refresh skills panel
+	 */
+	@Override
+	public void refresh()
+	{
+		if (theSystem.isPCgenerated())
+		{
+			PCharacter curPC = theSystem.getPC();
+
+			if (!this.jButtonPhysAdd.isEnabled()) // un qualsiasi controllo di
+			// panelImproving
+			{
+				this.lblAddNew.setText("");
+				this.pnlSkills.setToolTipText("Visit a trainer to learn new skills");
+				this.jBtnImproveSkill.setToolTipText("Visit a trainer to improve your skills");
+			}
+			else
+			{
+				this.lblAddNew.setText("Add new skill:");
+				this.pnlSkills.setToolTipText("");
+				this.jBtnImproveSkill.setToolTipText("");
+			}
+
+			this.jTxtSelectedSkill.setText("");
+			this.jTxtScore.setText(String.valueOf(curPC.getUnspentPoints()));
+
+			if (curPC.getNrSkills() > 0)
+			{
+				this.jTblLivelli = new JTable(curPC.getAllSkills(), JPnlSkills.skillTableColumns);
+				this.jTblLivelli.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				ListSelectionModel rowSM = this.jTblLivelli.getSelectionModel();
+				rowSM.addListSelectionListener(new ListSelectionListener()
+				{
+
+					public void valueChanged(ListSelectionEvent e)
+					{
+						if (e.getValueIsAdjusting())
+						{
+							return;
+						}
+						ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+						if (!lsm.isSelectionEmpty())
+						{
+							int selectedRow = lsm.getMinSelectionIndex();
+							JPnlSkills.this.jTxtSelectedSkill.setText(JPnlSkills.this.jTblLivelli.getValueAt(selectedRow, 0).toString());
+						}
+					}
+				});
+				this.jScrollLivelli.getViewport().add(this.jTblLivelli, null);
+			}
+			else
+			{
+				this.jTblLivelli = new JTable();
+				this.jScrollLivelli.getViewport().add(this.jTblLivelli, null);
+			}
+		}
+		else
+		// No PC is generated
+		{
+			this.jTxtScore.setText("");
+			this.jScrollLivelli.getViewport().removeAll();
+			this.enableImproving(false);
+		}
+
+	}
+
+	private void enablePanel(JPanel pnl, boolean enable)
+	{
+		pnl.setEnabled(enable);
+		for (Component control : pnl.getComponents())
+		{
+			control.setEnabled(enable);
+		}
+	}
+
+	private void customInit()
+	{
+		Skills levels = this.theSystem.getSkills();
+
+		DefaultComboBoxModel fisiche = new DefaultComboBoxModel(levels.getPhysical());
+		DefaultComboBoxModel mentali = new DefaultComboBoxModel(levels.getMental());
+
+		this.jCboMentalSkills.setModel(mentali);
+		this.jCboPhysical.setModel(fisiche);
+	}
+
+	private void addSkill(Skill sk)
+	{
+		this.parentGUI.addSkill(sk);
+	}
+
+	private void infoOnSkill(Skill sk)
+	{
+		this.parentGUI.showSkillInfo(sk);
+	}
+
+	private void improveSkill()
+	{
+		this.parentGUI.improveSkill();
+	}
+
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	// <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        pnlSkillList = new javax.swing.JPanel();
+        jTxtSelectedSkill = new javax.swing.JTextField();
+        jBtnImproveSkill = new javax.swing.JButton();
+        jScrollLivelli = new javax.swing.JScrollPane();
+        jTblLivelli = new javax.swing.JTable();
+        pnlEditSkills = new javax.swing.JPanel();
+        pnlSkills = new javax.swing.JPanel();
+        lblAddNew = new javax.swing.JLabel();
+        pnlPhysSkills = new javax.swing.JPanel();
+        jCboPhysical = new javax.swing.JComboBox();
+        jButtonPhysAdd = new javax.swing.JButton();
+        jButtonPhysHelp = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        pnlMentalSkills = new javax.swing.JPanel();
+        jCboMentalSkills = new javax.swing.JComboBox();
+        jButtonMentalAdd = new javax.swing.JButton();
+        jBtnMentalHelp = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTxtScore = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+
+        jTxtSelectedSkill.setEditable(false);
+        jTxtSelectedSkill.setFocusable(false);
+
+        jBtnImproveSkill.setText("Improve");
+        jBtnImproveSkill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnImproveSkillActionPerformed(evt);
+            }
+        });
+
+        jTblLivelli.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollLivelli.setViewportView(jTblLivelli);
+
+        javax.swing.GroupLayout pnlSkillListLayout = new javax.swing.GroupLayout(pnlSkillList);
+        pnlSkillList.setLayout(pnlSkillListLayout);
+        pnlSkillListLayout.setHorizontalGroup(
+            pnlSkillListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlSkillListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlSkillListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollLivelli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                    .addGroup(pnlSkillListLayout.createSequentialGroup()
+                        .addComponent(jTxtSelectedSkill, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnImproveSkill, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        pnlSkillListLayout.setVerticalGroup(
+            pnlSkillListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSkillListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlSkillListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTxtSelectedSkill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnImproveSkill))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollLivelli, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlSkills.setBackground(new java.awt.Color(204, 204, 255));
+        pnlSkills.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblAddNew.setFont(lblAddNew.getFont().deriveFont(lblAddNew.getFont().getStyle() | java.awt.Font.BOLD));
+        lblAddNew.setForeground(new java.awt.Color(255, 255, 255));
+        lblAddNew.setText("Add new skill:");
+
+        pnlPhysSkills.setBackground(new java.awt.Color(204, 204, 255));
+
+        jCboPhysical.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButtonPhysAdd.setText("Add");
+        jButtonPhysAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPhysAddActionPerformed(evt);
+            }
+        });
+
+        jButtonPhysHelp.setText("?");
+        jButtonPhysHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPhysHelpActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(jLabel3.getFont().deriveFont((jLabel3.getFont().getStyle() | java.awt.Font.ITALIC) & ~java.awt.Font.BOLD));
+        jLabel3.setText("Physical");
+
+        javax.swing.GroupLayout pnlPhysSkillsLayout = new javax.swing.GroupLayout(pnlPhysSkills);
+        pnlPhysSkills.setLayout(pnlPhysSkillsLayout);
+        pnlPhysSkillsLayout.setHorizontalGroup(
+            pnlPhysSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPhysSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPhysSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlPhysSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(pnlPhysSkillsLayout.createSequentialGroup()
+                            .addComponent(jButtonPhysAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonPhysHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jCboPhysical, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+        pnlPhysSkillsLayout.setVerticalGroup(
+            pnlPhysSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPhysSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCboPhysical, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlPhysSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPhysHelp)
+                    .addComponent(jButtonPhysAdd))
+                .addContainerGap())
+        );
+
+        pnlMentalSkills.setBackground(new java.awt.Color(204, 204, 255));
+
+        jCboMentalSkills.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButtonMentalAdd.setText("Add");
+        jButtonMentalAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMentalAddActionPerformed(evt);
+            }
+        });
+
+        jBtnMentalHelp.setText("?");
+        jBtnMentalHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnMentalHelpActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(jLabel2.getFont().deriveFont((jLabel2.getFont().getStyle() | java.awt.Font.ITALIC) & ~java.awt.Font.BOLD));
+        jLabel2.setText("Mental");
+
+        javax.swing.GroupLayout pnlMentalSkillsLayout = new javax.swing.GroupLayout(pnlMentalSkills);
+        pnlMentalSkills.setLayout(pnlMentalSkillsLayout);
+        pnlMentalSkillsLayout.setHorizontalGroup(
+            pnlMentalSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMentalSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlMentalSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMentalSkillsLayout.createSequentialGroup()
+                        .addComponent(jButtonMentalAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnMentalHelp, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlMentalSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel2)
+                        .addComponent(jCboMentalSkills, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        pnlMentalSkillsLayout.setVerticalGroup(
+            pnlMentalSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMentalSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCboMentalSkills, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlMentalSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnMentalHelp)
+                    .addComponent(jButtonMentalAdd))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout pnlSkillsLayout = new javax.swing.GroupLayout(pnlSkills);
+        pnlSkills.setLayout(pnlSkillsLayout);
+        pnlSkillsLayout.setHorizontalGroup(
+            pnlSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnlPhysSkills, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblAddNew, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlMentalSkills, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlSkillsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnlMentalSkills, pnlPhysSkills});
+
+        pnlSkillsLayout.setVerticalGroup(
+            pnlSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAddNew)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlPhysSkills, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlMentalSkills, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTxtScore.setEditable(false);
+        jTxtScore.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTxtScore.setText("0");
+        jTxtScore.setFocusable(false);
+
+        jLabel4.setFont(jLabel4.getFont().deriveFont(jLabel4.getFont().getStyle() & ~java.awt.Font.BOLD));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setLabelFor(jTxtScore);
+        jLabel4.setText("Remaining Skill Points");
+
+        javax.swing.GroupLayout pnlEditSkillsLayout = new javax.swing.GroupLayout(pnlEditSkills);
+        pnlEditSkills.setLayout(pnlEditSkillsLayout);
+        pnlEditSkillsLayout.setHorizontalGroup(
+            pnlEditSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlEditSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlEditSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditSkillsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                        .addComponent(jTxtScore, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(pnlSkills, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        pnlEditSkillsLayout.setVerticalGroup(
+            pnlEditSkillsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditSkillsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTxtScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addComponent(pnlSkills, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlSkillList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlEditSkills, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlEditSkills, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlSkillList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+	private void jBtnImproveSkillActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jBtnImproveSkillActionPerformed
+		this.improveSkill();
+	}// GEN-LAST:event_jBtnImproveSkillActionPerformed
+
+	private void jButtonPhysAddActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jButtonPhysAddActionPerformed
+		Skill selSkill = (Skill) this.jCboPhysical.getModel().getSelectedItem();
+		if (selSkill != null)
+		{
+			this.addSkill(selSkill);
+		}
+	}// GEN-LAST:event_jButtonPhysAddActionPerformed
+
+	private void jButtonPhysHelpActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jButtonPhysHelpActionPerformed
+		Skill localSkill = (Skill) this.jCboPhysical.getModel().getSelectedItem();
+		this.infoOnSkill(localSkill);
+	}// GEN-LAST:event_jButtonPhysHelpActionPerformed
+
+	private void jButtonMentalAddActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jButtonMentalAddActionPerformed
+		Skill selSkill = (Skill) this.jCboMentalSkills.getModel().getSelectedItem();
+		if (selSkill != null)
+		{
+			this.addSkill(selSkill);
+		}
+	}// GEN-LAST:event_jButtonMentalAddActionPerformed
+
+	private void jBtnMentalHelpActionPerformed(java.awt.event.ActionEvent evt)
+	{// GEN-FIRST:event_jBtnMentalHelpActionPerformed
+		Skill localSkill = (Skill) this.jCboMentalSkills.getModel().getSelectedItem();
+		this.infoOnSkill(localSkill);
+	}// GEN-LAST:event_jBtnMentalHelpActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnImproveSkill;
+    private javax.swing.JButton jBtnMentalHelp;
+    private javax.swing.JButton jButtonMentalAdd;
+    private javax.swing.JButton jButtonPhysAdd;
+    private javax.swing.JButton jButtonPhysHelp;
+    private javax.swing.JComboBox jCboMentalSkills;
+    private javax.swing.JComboBox jCboPhysical;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollLivelli;
+    private javax.swing.JTable jTblLivelli;
+    private javax.swing.JTextField jTxtScore;
+    private javax.swing.JTextField jTxtSelectedSkill;
+    private javax.swing.JLabel lblAddNew;
+    private javax.swing.JPanel pnlEditSkills;
+    private javax.swing.JPanel pnlMentalSkills;
+    private javax.swing.JPanel pnlPhysSkills;
+    private javax.swing.JPanel pnlSkillList;
+    private javax.swing.JPanel pnlSkills;
+    // End of variables declaration//GEN-END:variables
+}

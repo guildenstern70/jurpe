@@ -1,0 +1,582 @@
+/**
+J.U.R.P.E. @version@ Swing Demo
+Copyright (C) LittleLite Software
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+package net.littlelite.jurpedemo.wizards;
+
+import java.awt.Dimension;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import net.littlelite.jurpe.characters.CharacterAttributes;
+import net.littlelite.jurpe.system.JurpeException;
+import net.littlelite.jurpe.system.resources.ResourceFinder;
+
+public final class PanelWizard1 extends AbstractWizardPanel
+{
+
+    private static final long serialVersionUID = 3317L;
+    private CharacterUtils phase1;
+
+    /** Creates new form PanelWizard1 */
+    public PanelWizard1(WizardController cc)
+    {
+        super(cc);
+        initComponents();
+        this.setName("Set your name and sex");
+
+        this.phase1 = new CharacterUtils();
+        this.wizard = cc;
+    }
+
+    @Override
+    public void syncCharacter()
+    {
+        this.jTextFieldName.setText(this.wizard.getCharacterAttrs().getName());
+        if (this.wizard.getCharacterAttrs().getSex() == 'F')
+        {
+                this.jComboBoxSex.setSelectedIndex(1);
+        }
+        else
+        {
+                this.jComboBoxSex.setSelectedIndex(0);
+        }
+
+        String charImage = this.wizard.getCharacterAttrs().getImageFileName();
+        if (charImage == null)
+        {
+                this.setInitialImage();
+        }
+        else
+        {
+                try
+                {
+                        this.phase1.setImage(charImage);
+                        this.setImage(this.phase1.getCurrentImage());
+                }
+                catch (JurpeException jex)
+                {
+                        System.err.println(jex.getMessage());
+                }
+        }
+    }
+
+    @Override
+    public void updateCharacter()
+    {
+        CharacterAttributes ca = this.wizard.getCharacterAttrs();
+        ca.setName(this.jTextFieldName.getText());
+        ca.setSex((String)this.jComboBoxSex.getSelectedItem());
+        ca.setImageFileName(this.phase1.getImageName());
+    }
+   
+
+    private void setNextImage()
+    {
+        this.phase1.setNextImage((String) this.jComboBoxSex.getSelectedItem());
+        this.setImage(this.phase1.getCurrentImage());
+    }
+
+    private void setPreviousImage()
+    {
+        this.phase1.setPreviousImage((String) this.jComboBoxSex.getSelectedItem());
+        this.setImage(this.phase1.getCurrentImage());
+    }
+
+    /**
+     * Synch displayed fields with the character attributes. This is useful when
+     * user is navigating backwards in the wizard.
+     * 
+     */
+    public void synchCharacter()
+    {
+        this.jTextFieldName.setText(this.wizard.getCharacterAttrs().getName());
+        if (this.wizard.getCharacterAttrs().getSex() == 'F')
+        {
+            this.jComboBoxSex.setSelectedIndex(1);
+        }
+        else
+        {
+            this.jComboBoxSex.setSelectedIndex(0);
+        }
+
+        String charImage = this.wizard.getCharacterAttrs().getImageFileName();
+        if (charImage == null)
+        {
+            this.setInitialImage();
+        }
+        else
+        {
+            try
+            {
+                this.phase1.setImage(charImage);
+                this.setImage(this.phase1.getCurrentImage());
+            }
+            catch (JurpeException jex)
+            {
+                System.err.println(jex.getMessage());
+            }
+        }
+    }
+
+    private void setImage(ImageIcon image)
+    {
+        this.jLabelImage.setIcon(image);
+        this.jLabelImage.setPreferredSize(new Dimension(140, 150));
+        this.jLabelImage.revalidate();
+    }
+
+    /**
+     * Set character's initial image based on selected sex.
+     */
+    private void setInitialImage()
+    {
+        if (this.phase1 == null)
+        {
+            return;
+        }
+
+        String selected = (String) this.jComboBoxSex.getSelectedItem();
+        if (selected == null)
+        {
+            selected = "M";
+        }
+        this.phase1.setFirstImage(selected);
+        ImageIcon ii = this.phase1.getCurrentImage();
+        this.setImage(ii);
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        pnlCharacterImage = new javax.swing.JPanel();
+        jLabelImage = new javax.swing.JLabel();
+        jButtonImgNext = new javax.swing.JButton();
+        jButtonImgPrev = new javax.swing.JButton();
+        jComboBoxSex = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldName = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(204, 255, 204));
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        pnlCharacterImage.setLayout(new java.awt.BorderLayout());
+        pnlCharacterImage.add(jLabelImage, java.awt.BorderLayout.CENTER);
+
+        jButtonImgNext.setText(">");
+        jButtonImgNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImgNextActionPerformed(evt);
+            }
+        });
+
+        jButtonImgPrev.setText("<");
+        jButtonImgPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImgPrevActionPerformed(evt);
+            }
+        });
+
+        jComboBoxSex.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "M", "F" }));
+        jComboBoxSex.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxSexItemStateChanged(evt);
+            }
+        });
+
+        jLabel1.setText("Choose sex:");
+
+        jTextFieldName.setText("Hero");
+
+        jLabel2.setText("Choose name:");
+
+        jLabel3.setFont(jLabel3.getFont().deriveFont(jLabel3.getFont().getStyle() | java.awt.Font.BOLD));
+        jLabel3.setText("Choose name, sex and aspect:");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(196, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnlCharacterImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonImgPrev)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonImgNext)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(53, 53, 53)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlCharacterImage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonImgNext)
+                            .addComponent(jButtonImgPrev))))
+                .addContainerGap(75, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+    private void jButtonImgNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImgNextActionPerformed
+        this.setNextImage();
+    }//GEN-LAST:event_jButtonImgNextActionPerformed
+
+    private void jButtonImgPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImgPrevActionPerformed
+        this.setPreviousImage();
+    }//GEN-LAST:event_jButtonImgPrevActionPerformed
+
+    private void jComboBoxSexItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxSexItemStateChanged
+        this.setInitialImage();
+    }//GEN-LAST:event_jComboBoxSexItemStateChanged
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonImgNext;
+    private javax.swing.JButton jButtonImgPrev;
+    private javax.swing.JComboBox jComboBoxSex;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelImage;
+    private javax.swing.JTextField jTextFieldName;
+    private javax.swing.JPanel pnlCharacterImage;
+    // End of variables declaration//GEN-END:variables
+
+    /**
+ * This helper class handles details about character image, name and sex.
+ * 
+ */
+class CharacterUtils
+{
+	/**
+	 * This class holds the paths to the character images along with sex
+	 * information (so that user can choose to display only, ie, female images).
+	 * Sex and other infos are read from the file name, ie: fpc01.gif is the
+	 * first image of a female character.
+	 */
+	class ImageItem
+	{
+		private ImageIcon image;
+		private String sex;
+		private String name;
+
+		/**
+		 * Constructor. If the gif file starts with "f", the image will be
+		 * considered to be feminine, else masculine.
+		 * 
+		 * @param imageFile
+		 *            Path to image gif file
+		 */
+		public ImageItem(String imageFile)
+		{
+			this.initFields(imageFile);
+		}
+
+		/**
+		 * The image icon associated with this ImageItem
+		 * 
+		 * @return image icon associated with this ImageItem
+		 */
+		public ImageIcon getImage()
+		{
+			return this.image;
+		}
+
+		/**
+		 * Get the name/path of this image item
+		 * 
+		 * @return the name/path of this image item
+		 */
+		public String getName()
+		{
+			return this.name;
+		}
+
+		/**
+		 * Sex of the character displayed in the image
+		 */
+		public String getSex()
+		{
+			return this.sex;
+		}
+
+		/**
+		 * A string representation of this Image Item
+		 */
+		@Override
+		public String toString()
+		{
+			return "Image Item [" + this.image.toString() + "],[" + this.sex + "]";
+		}
+
+		private void initFields(String pathFile)
+		{
+			ResourceFinder rf = ResourceFinder.resources();
+			this.name = pathFile;
+			this.image = rf.getResourceAsImage(pathFile);
+
+			// Sex is the 12th letter in the path name
+			String sexFound = this.name.substring(11, 12);
+			if (sexFound.toLowerCase().equals("m"))
+			{
+				this.sex = "M";
+			}
+			else
+			{
+				this.sex = "F";
+			}
+		}
+	}
+
+	protected ArrayList<ImageItem> imageFiles;
+	protected int currentIndex;
+	protected ImageIcon currentImage;
+
+	/**
+	 * Character Phase 1 constructor
+	 * 
+	 * @param c
+	 * @throws JurpeException
+	 */
+	public CharacterUtils()
+	{
+		this.imageFiles = new ArrayList<ImageItem>();
+		this.initializeImages();
+	}
+
+	/**
+	 * Set the first available image for the given sex, ie, the first female
+	 * character image. The image can be requested with a call to
+	 * <i>getCurrentImage()</i>.
+	 * 
+	 * @param sex
+	 *            The sex of the characters
+	 */
+	public void setFirstImage(String sex)
+	{
+		if (!this.imageFiles.isEmpty())
+		{
+			int counter = 0;
+			for (ImageItem ii : this.imageFiles)
+			{
+				if (ii.getSex().equals(sex))
+				{
+					this.setImage(ii.getImage());
+					this.currentIndex = counter;
+					break;
+				}
+				counter++;
+			}
+		}
+	}
+
+	/**
+	 * Set the current image to the next available for the given sex. The image
+	 * can be requested with a call to <i>getCurrentImage()</i>.
+	 */
+	public void setNextImage(String sex)
+	{
+		this.setCurrentImage(sex, true);
+	}
+
+	/**
+	 * Set the current image to the previous available for the given sex. The
+	 * image can be requested with a call to <i>getCurrentImage()</i>.
+	 */
+	public void setPreviousImage(String sex)
+	{
+		this.setCurrentImage(sex, false);
+	}
+
+	/**
+	 * Get the current image
+	 */
+	public ImageIcon getCurrentImage()
+	{
+		return this.currentImage;
+	}
+
+	/**
+	 * Set the current image
+	 * 
+	 * @param ii
+	 *            the current ImageIcon
+	 */
+	public void setImage(ImageIcon ii)
+	{
+		this.currentImage = ii;
+	}
+
+	/**
+	 * Set current image
+	 * 
+	 * @param fileImage
+	 *            image file
+	 * @throws JurpeException
+	 */
+	public void setImage(String fileImage) throws JurpeException
+	{
+		ImageItem selectedItem = null;
+		this.currentIndex = 0;
+		for (ImageItem ii : this.imageFiles)
+		{
+			if (ii.getName().equals(fileImage))
+			{
+				selectedItem = ii;
+				break;
+			}
+			this.currentIndex++;
+		}
+
+		if (selectedItem == null)
+		{
+			throw new JurpeException("Cant find " + fileImage + " in the file list.");
+		}
+
+		this.currentImage = selectedItem.getImage();
+	}
+
+	/**
+	 * Update the character with the given name, sex and image
+	 * 
+	 * @param name
+	 *            Name of the character
+	 * @param sex
+	 *            Sex of the character
+	 */
+	public void updateCharacter(String name, String sex)
+	{
+		wizard.getCharacterAttrs().setName(name);
+		wizard.getCharacterAttrs().setSex(sex);
+		wizard.getCharacterAttrs().setImageFileName(this.getImageName());
+	}
+
+	/**
+	 * Set the current image in the list
+	 * 
+	 * @param sex
+	 *            The images selected sex
+	 * @param next
+	 *            If true the next image is selected, else the previous one
+	 */
+	private void setCurrentImage(String sex, boolean next)
+	{
+		ImageItem ii = this.getItem(next);
+		if (ii.getSex().equals(sex))
+		{
+			this.currentImage = ii.getImage();
+		}
+		else
+		{
+			if (next)
+			{
+				this.setNextImage(sex);
+			}
+			else
+			{
+				this.setPreviousImage(sex);
+			}
+		}
+	}
+
+	/**
+	 * Get current image file name, as its path in the resources file, ie:
+	 * images/pcs/fpc01.gif
+	 * 
+	 * @return the absolute path to the image file
+	 */
+	private String getImageName()
+	{
+		return this.getCurrentItem().getName();
+	}
+
+	private ImageItem getCurrentItem()
+	{
+		return this.imageFiles.get(this.currentIndex);
+	}
+
+	/**
+	 * Get the next or previous ImageItem in the list
+	 * 
+	 * @param next
+	 * @return
+	 */
+	private ImageItem getItem(boolean next)
+	{
+		if (next)
+		{
+			this.currentIndex++;
+		}
+		else
+		{
+			this.currentIndex--;
+		}
+
+		if (this.currentIndex < 0)
+		{
+			this.currentIndex = this.imageFiles.size() - 1;
+		}
+		else if (this.currentIndex == this.imageFiles.size())
+		{
+			this.currentIndex = 0;
+		}
+
+		return this.getCurrentItem();
+	}
+
+	private void initializeImages()
+	{
+		String[] availableImages =
+		{ "images/pcs/fpc01.gif", "images/pcs/fpc02.gif", "images/pcs/fpc03.gif", "images/pcs/fpc04.gif", "images/pcs/fpc05.gif", "images/pcs/fpc06.gif",
+				"images/pcs/fpc07.gif", "images/pcs/fpc08.gif", "images/pcs/mpc00.gif", "images/pcs/mpc01.gif", "images/pcs/mpc02.gif", "images/pcs/mpc03.gif",
+				"images/pcs/mpc04.gif", "images/pcs/mpc05.gif", "images/pcs/mpc06.gif", "images/pcs/mpc07.gif" };
+
+		for (String imgResource : availableImages)
+		{
+			this.imageFiles.add(new ImageItem(imgResource));
+		}
+	}
+
+}
+
+}
