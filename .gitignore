@@ -1,1 +1,6 @@
-/jurpedemo/src/main/resources/
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
