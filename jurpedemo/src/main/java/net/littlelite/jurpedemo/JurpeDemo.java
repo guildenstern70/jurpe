@@ -80,7 +80,7 @@ public class JurpeDemo extends SingleFrameApplication
         Dimension size = JurpeDemoConfig.FRAMESIZE;
         this.frame.setLocation((screenSize.width - size.width) / 2, (screenSize.height - size.height) / 2);
         this.frame.setMinimumSize(size);
-        this.frame.setResizable(true);
+        this.frame.setResizable(false);
         this.frame.validate();
         this.frame.setVisible(true);
         this.system.getLog().addDetail("System initialized.");
